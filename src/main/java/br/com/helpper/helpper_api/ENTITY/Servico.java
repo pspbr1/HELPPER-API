@@ -24,6 +24,10 @@ public class Servico {
     @Column
     private String descricao;
 
+    @Column
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
+
     @ManyToOne
     @JoinColumn(name = "contratante_id")
     private Contratante contratante;
@@ -79,6 +83,14 @@ public class Servico {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public StatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusEnum status) {
+        this.status = status;
     }
 
 }

@@ -12,7 +12,7 @@ public abstract class Usuario {
     private long id;
 
     @Column
-    private Integer cpf;
+    private String cpf;
 
     @Column(nullable = false)
     private String nome;
@@ -59,11 +59,11 @@ public abstract class Usuario {
         this.senha = senha;
     }
 
-    public Integer getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(Integer cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 }

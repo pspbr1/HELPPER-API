@@ -17,17 +17,17 @@ import java.util.List;
 public interface PrestadorRepository extends JpaRepository<Prestador, Long> {
 
     //Busca prestadores por cidade
-    List<Prestador> fndByCidade(String cidade);
+    List<Prestador> findByCidade(String cidade);
 
     //busca prestadores por avaliação
-    List<Prestador> FindByAvaliacao(Double avaliacaoMinima);
+    List<Prestador> findByAvaliacao(Double avaliacaoMinima);
 
     //busca prestadores por cidade E avaliacao
-    List<Prestador> FindByAvaliacaoCidade(
+    List<Prestador> findByCidadeAndAvaliacaoGreaterThanEqual(
             String cidade,
             Double avaliacaoMinima
     );
 
     //busca prestadores que oferecem um servico especifco
-    List<Prestador> findByServico(@Param("servico") String servico);
+    List<Prestador> findByServicos(String servicos);
 }

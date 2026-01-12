@@ -1,33 +1,10 @@
 package br.com.helpper.helpper_api.DTO;
 
-import br.com.helpper.helpper_api.ENTITY.Usuario;
-
-public class UsuarioDTO {
-    private Long id;
+public class UsuarioRequestDTO {
     private String cpf;
     private String nome;
     private String email;
     private String senha;
-
-    public UsuarioDTO() {
-
-    }
-
-    public UsuarioDTO(Usuario usuario) {
-        this.id = usuario.getId();
-        this.cpf = usuario.getCpf();
-        this.nome = usuario.getNome();
-        this.email = usuario.getEmail();
-        this.senha = usuario.getSenha();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getCpf() {
         return cpf;
