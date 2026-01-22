@@ -3,7 +3,12 @@ package br.com.helpper.helpper_api.DTO;
 import br.com.helpper.helpper_api.ENTITY.Contratante;
 
 public class ContratanteDTO {
+
     private String endereco;
+
+    private String nome;
+
+    private String email;
 
     public ContratanteDTO() {
 
@@ -19,4 +24,5 @@ public class ContratanteDTO {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
+
 }

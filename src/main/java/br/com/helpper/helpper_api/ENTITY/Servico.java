@@ -10,7 +10,7 @@ public class Servico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column
     private String orcamento;
@@ -38,13 +38,11 @@ public class Servico {
     }
     
     //AQUI HERDA O ENDEREÇO DO USUARIO
-    
+
     public String getEnderecoDoContratante() {
         return contratante != null ? contratante.getEndereco() : null;
     }
-    
-    
-    
+
     public long getId() {
         return id;
     }
@@ -53,11 +51,11 @@ public class Servico {
         this.id = id;
     }
 
-    public String getorcamento() {
+    public String getOrcamento() {
         return orcamento;
     }
 
-    public void setorcamento(String orcamento) {
+    public void setOrcamento(String orcamento) {
         orcamento = orcamento;
     }
 
@@ -94,6 +92,3 @@ public class Servico {
     }
 
 }
-
-
-// tipo, ID, Prazo, Status, Descrição

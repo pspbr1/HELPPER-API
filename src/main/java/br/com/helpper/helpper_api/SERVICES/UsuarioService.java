@@ -4,7 +4,16 @@ import br.com.helpper.helpper_api.DTO.UsuarioDTO;
 import br.com.helpper.helpper_api.DTO.UsuarioRequestDTO;
 import br.com.helpper.helpper_api.ENTITY.Usuario;
 import br.com.helpper.helpper_api.REPOSITORY.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.Instant;
 
 @Service
 public class UsuarioService {
@@ -52,5 +61,31 @@ public class UsuarioService {
     private Usuario buscarEntidadePorId(Long id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
+
+    @Value("${app.upload.dir:/uploads/usuarios}")
+    private String uploadDir;
+    @Value("${app.upload.dir:/http://localhost:8080}")
+    private String baseUrl;
+
+    public UsuarioDTO atualizarFotoPerfil(Long id, MultipartFile arquivoFoto) throws IOException {
+        Usuario usuario = buscarEntidadePorId(id);
+        String extensao = extrairExtensao(arquivoFoto.getOriginalFilename());
+        String nomeFt = id + "_" + Instant.now().toEpochMilli() + "." +extensao;
+
+        Path destino = Paths.get(uploadDir + nomeFt);
+
+        Files.createDirectories(destino.getParent());
+
+        Files.copy(arquivoFoto.getInputStream(), destino, StandardCopyOption.REPLACE_EXISTING);
+
+        String urlFoto = baseUrl + "/arquivos/usuarios/" + nomeFt;
+        usuario.setFotoPerfilUrl(urlFoto);
+        Usuario salvo = usuarioRepository.save(usuario);
+        return new UsuarioDTO(salvo);
+    }
+    private String extrairExtensao(String arquivo) {
+        if (arquivo == null) return "jpg";
+        return arquivo.substring(arquivo.lastIndexOf('.') + 1).toLowerCase();
     }
 }

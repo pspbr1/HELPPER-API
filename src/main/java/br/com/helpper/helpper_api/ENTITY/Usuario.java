@@ -7,9 +7,10 @@ import jakarta.persistence.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_usuario")
 public abstract class Usuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column
     private String cpf;
@@ -23,16 +24,28 @@ public abstract class Usuario {
     @Column(nullable = false)
     private String senha;
 
-    public Usuario() {
-
+    public String getRoleName() {
+        return this.getClass().getSimpleName().toUpperCase(); // PRESTADOR, CONTRATANTE
     }
 
-    public long getId() {
+
+    @Column
+    private String fotoPerfilUrl;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getNome() {
@@ -59,11 +72,11 @@ public abstract class Usuario {
         this.senha = senha;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getFotoPerfilUrl() {
+        return fotoPerfilUrl;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setFotoPerfilUrl(String fotoPerfilUrl) {
+        this.fotoPerfilUrl = fotoPerfilUrl;
     }
 }

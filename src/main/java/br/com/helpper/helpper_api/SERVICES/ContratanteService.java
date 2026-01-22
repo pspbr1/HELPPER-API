@@ -46,9 +46,9 @@ public class ContratanteService {
         Contratante contratante = buscarEntidadePorId(id);
 
         contratante.setEndereco(contratanteAtualizado.getEndereco());
-        contratante.setEmail(contratanteAtualizado.getEmail());
-        contratante.setNome(contratanteAtualizado.getNome());
-        contratante.setSenha(contratanteAtualizado.getSenha());
+        //contratante.setEmail(contratanteAtualizado.getEmail());
+        //contratante.setNome(contratanteAtualizado.getNome());
+        //contratante.setSenha(contratanteAtualizado.getSenha());
 
         Contratante salvo = contratanteRepository.save(contratante);
         return new ContratanteDTO(salvo);

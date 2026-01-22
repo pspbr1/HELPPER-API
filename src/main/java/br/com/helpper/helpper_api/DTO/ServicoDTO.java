@@ -20,7 +20,7 @@ public class ServicoDTO {
 
     public ServicoDTO(Servico servico) {
         this.id =  servico.getId();
-        this.orcamento = servico.getorcamento();
+        this.orcamento = servico.getOrcamento();
         this.tipo = servico.getTipo();
         this.data = servico.getData();
         this.descricao = servico.getDescricao();

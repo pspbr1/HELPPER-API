@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/usuario")
@@ -35,6 +38,12 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDTO> deletarPorId(@PathVariable Long id) {
         UsuarioDTO response = usuarioService.deletarPorId(id);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/{id}/foto-perfil")
+    public UsuarioDTO atualizarFotoPerfil(@PathVariable Long id, @RequestParam ("arquivo")
+    MultipartFile arquivo) throws IOException {
+        return usuarioService.atualizarFotoPerfil(id, arquivo);
     }
 }
 

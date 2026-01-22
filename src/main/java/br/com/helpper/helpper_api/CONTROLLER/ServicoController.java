@@ -2,6 +2,7 @@ package br.com.helpper.helpper_api.CONTROLLER;
 import br.com.helpper.helpper_api.DTO.AtualizarStatusRequest;
 import br.com.helpper.helpper_api.DTO.ServicoDTO;
 import br.com.helpper.helpper_api.ENTITY.Servico;
+import br.com.helpper.helpper_api.SERVICES.ProfissionalServicosService;
 import br.com.helpper.helpper_api.SERVICES.ServicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,8 @@ public class ServicoController {
 
     @Autowired
     private ServicoService servicoService;
+    @Autowired
+    private ProfissionalServicosService profissionalServicosService;
 
     @PostMapping("/create")
     public ResponseEntity<ServicoDTO> create(@RequestBody Servico servico) {
@@ -33,4 +36,8 @@ public class ServicoController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/{id}/profissionais/{prestadorId}")
+    public void vincularPrestador(@PathVariable Long servicoId, @PathVariable Long prestadorId) {
+        profissionalServicosService.vincularPrestadorAoServico(prestadorId, servicoId);
+    }
 }

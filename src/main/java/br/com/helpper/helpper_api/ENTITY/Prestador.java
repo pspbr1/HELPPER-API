@@ -1,18 +1,18 @@
 package br.com.helpper.helpper_api.ENTITY;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @DiscriminatorValue("PRESTADOR")
-public class Prestador extends Usuario{
+public class Prestador extends Usuario {
 
-    private Double avaliacao;
-
+    private Boolean verificado;
+    private BigDecimal mediaAvaliacao;
+    private Integer totalAvaliacoes;
     private String cidade;
 
     @ElementCollection
@@ -24,14 +24,26 @@ public class Prestador extends Usuario{
 
     }
 
-    public Double getAvaliacao() {
-        return avaliacao;
+    public boolean getVerificado() {
+        return verificado;
+    }
+    public boolean setVerificado(Boolean verificado) {this.verificado = verificado; return true;}
+
+    public BigDecimal getMediaAvaliacao() {
+        return mediaAvaliacao;
     }
 
-    public void setAvaliacao(Double avaliacao) {
-        this.avaliacao = avaliacao;
+    public void setMediaAvaliacao(BigDecimal mediaAvaliacao) {
+        this.mediaAvaliacao = mediaAvaliacao;
     }
 
+    public Integer getTotalAvaliacoes() {
+        return totalAvaliacoes;
+    }
+
+    public void setTotalAvaliacoes(Integer totalAvaliacoes) {
+        this.totalAvaliacoes = totalAvaliacoes;
+    }
 
     public List<String> getServicos() {
         return servicos;
