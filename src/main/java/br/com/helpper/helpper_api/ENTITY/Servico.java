@@ -56,7 +56,7 @@ public class Servico {
     }
 
     public void setOrcamento(String orcamento) {
-        orcamento = orcamento;
+        this.orcamento = orcamento;
     }
 
     public String getTipo() {

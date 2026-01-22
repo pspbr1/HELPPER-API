@@ -9,8 +9,6 @@ import jakarta.persistence.*;
 @DiscriminatorValue("CONTRATANTE")
 public class Contratante extends Usuario {
 
-    private String cpf;
-
     private int telefone;
 
     private String endereco;
@@ -25,13 +23,6 @@ public class Contratante extends Usuario {
         this.endereco = endereco;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public int getTelefone() {
         return telefone;
     }
@@ -39,4 +30,3 @@ public class Contratante extends Usuario {
         this.telefone = telefone;
     }
 }
-
