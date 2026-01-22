@@ -3,18 +3,19 @@ package br.com.helpper.helpper_api.SERVICES;
 import br.com.helpper.helpper_api.DTO.PrestadorDTO;
 import br.com.helpper.helpper_api.ENTITY.Prestador;
 import br.com.helpper.helpper_api.REPOSITORY.PrestadorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PrestadorService {
-    
-    @Autowired
-    private PrestadorRepository prestadorRepository;
-    
+
+    private final PrestadorRepository prestadorRepository;
+
+    public PrestadorService(PrestadorRepository prestadorRepository) {
+        this.prestadorRepository = prestadorRepository;
+    }
+
     //criar novo prestador
     public PrestadorDTO criar(Prestador prestador) {
         Prestador salvo = prestadorRepository.save(prestador);
@@ -27,28 +28,26 @@ public class PrestadorService {
         return prestadorRepository.findAll()
                 .stream()
                 .map(PrestadorDTO::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     //buscar pelo id
     public PrestadorDTO buscarPorId(Long id) {
-        Prestador Prestador = prestadorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Prestador não encontrado"));
-        return new PrestadorDTO(Prestador);
+        Prestador prestador = buscarEntidadePorId(id);
+        return new PrestadorDTO(prestador);
     }
 
     //Atualzar
     public PrestadorDTO atualizar(Long id, Prestador prestadorAtualizado){
-        Prestador Prestador = prestadorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Prestador não encontrado"));
+        Prestador prestador = buscarEntidadePorId(id);
 
-        Prestador.setServicos(prestadorAtualizado.getServicos());
-        Prestador.setEmail(prestadorAtualizado.getEmail());
-        Prestador.setNome(prestadorAtualizado.getNome());
-        Prestador.setSenha(prestadorAtualizado.getSenha());
-        Prestador.setBioProfissional(prestadorAtualizado.getBioProfissional());
+        prestador.setServicos(prestadorAtualizado.getServicos());
+        prestador.setEmail(prestadorAtualizado.getEmail());
+        prestador.setNome(prestadorAtualizado.getNome());
+        prestador.setSenha(prestadorAtualizado.getSenha());
+        prestador.setBioProfissional(prestadorAtualizado.getBioProfissional());
 
-        Prestador salvo = prestadorRepository.save(Prestador);
+        Prestador salvo = prestadorRepository.save(prestador);
         return new PrestadorDTO(salvo);
     }
 
@@ -56,5 +55,9 @@ public class PrestadorService {
     public void deletar(Long id){
         prestadorRepository.deleteById(id);
     }
-    
+
+    private Prestador buscarEntidadePorId(Long id) {
+        return prestadorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Prestador não encontrado"));
+    }
 }

@@ -4,14 +4,16 @@ import br.com.helpper.helpper_api.DTO.ServicoDTO;
 import br.com.helpper.helpper_api.ENTITY.Servico;
 import br.com.helpper.helpper_api.ENTITY.StatusEnum;
 import br.com.helpper.helpper_api.REPOSITORY.ServicoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ServicoService {
 
-    @Autowired
-    private ServicoRepository servicoRepository;
+    private final ServicoRepository servicoRepository;
+
+    public ServicoService(ServicoRepository servicoRepository) {
+        this.servicoRepository = servicoRepository;
+    }
 
     public ServicoDTO criar(Servico servico) {
         Servico salvar = servicoRepository.save(servico);
@@ -19,7 +21,7 @@ public class ServicoService {
     }
 
     public ServicoDTO atualizarStatus(long id, StatusEnum novoStatus){
-        Servico servico = servicoRepository.findById(id).orElseThrow(() -> new RuntimeException("Serviço não encontrado"));
+        Servico servico = buscarEntidadePorId(id);
         servico.setStatus(novoStatus);
         Servico salvar = servicoRepository.save(servico);
 
@@ -27,4 +29,9 @@ public class ServicoService {
     }
 
     public void deletarServico(long id) { }
+
+    private Servico buscarEntidadePorId(long id) {
+        return servicoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Serviço não encontrado"));
+    }
 }

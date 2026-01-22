@@ -4,21 +4,20 @@ import br.com.helpper.helpper_api.DTO.UsuarioDTO;
 import br.com.helpper.helpper_api.DTO.UsuarioRequestDTO;
 import br.com.helpper.helpper_api.ENTITY.Usuario;
 import br.com.helpper.helpper_api.REPOSITORY.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    public UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
     // Buscar usuário (qualquer tipo) por ID
     public UsuarioDTO buscarPorId(Long id) {
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Usuario usuario = buscarEntidadePorId(id);
         return new UsuarioDTO(usuario);
     }
 
@@ -31,8 +30,7 @@ public class UsuarioService {
 
     // Atualizar dados comuns (nome, email, senha) independente de ser Prestador ou Contratante
     public UsuarioDTO atualizarDadosComuns(Long id, UsuarioRequestDTO dto) {
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Usuario usuario = buscarEntidadePorId(id);
 
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
@@ -44,13 +42,15 @@ public class UsuarioService {
     }
 
     public UsuarioDTO deletarPorId(Long id) {
-        Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Usuario usuario = buscarEntidadePorId(id);
 
         usuarioRepository.delete(usuario);
 
         return new UsuarioDTO(usuario);
     }
+
+    private Usuario buscarEntidadePorId(Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
 }
-
-
