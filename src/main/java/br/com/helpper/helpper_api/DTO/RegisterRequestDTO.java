@@ -5,6 +5,7 @@ import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
 public class RegisterRequestDTO {
 
@@ -29,6 +30,16 @@ public class RegisterRequestDTO {
 
     @NotNull
     private TipoUsuario tipo; // CLIENTE ou PROFISSIONAL
+
+    private String endereco;
+
+    private Integer telefone;
+
+    private String cidade;
+
+    private String bioProfissional;
+
+    private List<String> servicos;
 
     public RegisterRequestDTO() {}
 
@@ -88,4 +99,43 @@ public class RegisterRequestDTO {
         this.tipo = tipo;
     }
 
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public Integer getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(Integer telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getBioProfissional() {
+        return bioProfissional;
+    }
+
+    public void setBioProfissional(String bioProfissional) {
+        this.bioProfissional = bioProfissional;
+    }
+
+    public List<String> getServicos() {
+        return servicos;
+    }
+
+    public void setServicos(List<String> servicos) {
+        this.servicos = servicos;
+    }
 }
