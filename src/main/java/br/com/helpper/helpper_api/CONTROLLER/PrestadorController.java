@@ -11,34 +11,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/prestador")
+@RequestMapping("/prestadores")
 public class PrestadorController {
 
     @Autowired
     private PrestadorService prestadorService;
 
-    // Metodo POST /api/Prestadores - Criar prestador
+    // Metodo POST /prestadores - Criar prestador
     @PostMapping
     public ResponseEntity<PrestadorDTO> criar(@RequestBody Prestador prestador) {
         PrestadorDTO dto = prestadorService.criar(prestador);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
-    // Metodo GET /api/Prestadors - Listar todos prestadores
+    // Metodo GET /prestadores - Listar todos prestadores
     @GetMapping
     public ResponseEntity<List<PrestadorDTO>> listarTodos() {
         List<PrestadorDTO> lista = prestadorService.listarTodos();
         return ResponseEntity.ok(lista);
     }
 
-    // GET /api/Prestadors/{id} - Buscar prestador por ID
+    // GET /prestadores/{id} - Buscar prestador por ID
     @GetMapping("/{id}")
     public ResponseEntity<PrestadorDTO> buscarPorId(@PathVariable Long id) {
         PrestadorDTO dto = prestadorService.buscarPorId(id);
         return ResponseEntity.ok(dto);
     }
 
-    // Metodo PUT /api/Prestadors/{id} - Atualizar
+    // Metodo PUT /prestadores/{id} - Atualizar
     @PutMapping("/{id}")
     public ResponseEntity<PrestadorDTO> atualizar(
             @PathVariable Long id,
@@ -48,7 +48,7 @@ public class PrestadorController {
         return ResponseEntity.ok(dto);
     }
 
-    // Metodo DELETE /api/Prestadors/{id} - Deletar
+    // Metodo DELETE /prestadores/{id} - Deletar
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         prestadorService.deletar(id);

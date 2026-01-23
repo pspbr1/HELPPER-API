@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/servico")
+@RequestMapping("/servicos")
 public class ServicoController {
 
     @Autowired
@@ -18,7 +18,7 @@ public class ServicoController {
     @Autowired
     private ProfissionalServicosService profissionalServicosService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<ServicoDTO> create(@RequestBody Servico servico) {
         ServicoDTO  servicoDTO = servicoService.criar(servico);
         return ResponseEntity.status(HttpStatus.CREATED).body(servicoDTO);
@@ -30,14 +30,18 @@ public class ServicoController {
         return ResponseEntity.ok(servicoDTO);
     }
 
-    @DeleteMapping("/{id}/servico")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarServico(@PathVariable Long id) {
         servicoService.deletarServico(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{id}/profissionais/{prestadorId}")
-    public void vincularPrestador(@PathVariable Long servicoId, @PathVariable Long prestadorId) {
+    @PostMapping("/{servicoId}/profissionais/{prestadorId}")
+    public ResponseEntity<Void> vincularPrestador(
+            @PathVariable Long servicoId,
+            @PathVariable Long prestadorId
+    ) {
         profissionalServicosService.vincularPrestadorAoServico(prestadorId, servicoId);
+        return ResponseEntity.noContent().build();
     }
 }

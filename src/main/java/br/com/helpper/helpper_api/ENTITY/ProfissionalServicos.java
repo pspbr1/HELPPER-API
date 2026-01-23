@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "profissional_servico")
 public class ProfissionalServicos {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

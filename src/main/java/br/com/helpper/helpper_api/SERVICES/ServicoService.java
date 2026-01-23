@@ -28,7 +28,10 @@ public class ServicoService {
         return new ServicoDTO(salvar);
     }
 
-    public void deletarServico(long id) { }
+    public void deletarServico(long id) {
+        Servico servico = buscarEntidadePorId(id);
+        servicoRepository.delete(servico);
+    }
 
     private Servico buscarEntidadePorId(long id) {
         return servicoRepository.findById(id)

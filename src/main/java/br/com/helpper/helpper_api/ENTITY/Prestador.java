@@ -24,10 +24,13 @@ public class Prestador extends Usuario {
 
     }
 
-    public boolean getVerificado() {
+    public Boolean getVerificado() {
         return verificado;
     }
-    public boolean setVerificado(Boolean verificado) {this.verificado = verificado; return true;}
+
+    public void setVerificado(Boolean verificado) {
+        this.verificado = verificado;
+    }
 
     public BigDecimal getMediaAvaliacao() {
         return mediaAvaliacao;

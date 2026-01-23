@@ -19,7 +19,7 @@ public class Servico {
     private String tipo;
 
     @Column
-    private Date  data;
+    private Date data;
 
     @Column
     private String descricao;
@@ -47,7 +47,7 @@ public class Servico {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,7 +56,7 @@ public class Servico {
     }
 
     public void setOrcamento(String orcamento) {
-        orcamento = orcamento;
+        this.orcamento = orcamento;
     }
 
     public String getTipo() {
@@ -91,4 +91,11 @@ public class Servico {
         this.status = status;
     }
 
+    public Contratante getContratante() {
+        return contratante;
+    }
+
+    public void setContratante(Contratante contratante) {
+        this.contratante = contratante;
+    }
 }
