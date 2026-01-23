@@ -5,6 +5,7 @@ import br.com.helpper.helpper_api.DTO.UsuarioRequestDTO;
 import br.com.helpper.helpper_api.ENTITY.Usuario;
 import br.com.helpper.helpper_api.REPOSITORY.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,9 +20,11 @@ import java.time.Instant;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // Buscar usuário (qualquer tipo) por ID
@@ -43,7 +46,7 @@ public class UsuarioService {
 
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
-        usuario.setSenha(dto.getSenha());
+        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
         usuario.setCpf(dto.getCpf());
 
         Usuario salvo = usuarioRepository.save(usuario);
@@ -65,7 +68,7 @@ public class UsuarioService {
 
     @Value("${app.upload.dir:/uploads/usuarios}")
     private String uploadDir;
-    @Value("${app.upload.dir:/http://localhost:8080}")
+    @Value("${app.base-url:http://localhost:8080}")
     private String baseUrl;
 
     public UsuarioDTO atualizarFotoPerfil(Long id, MultipartFile arquivoFoto) throws IOException {
@@ -73,7 +76,7 @@ public class UsuarioService {
         String extensao = extrairExtensao(arquivoFoto.getOriginalFilename());
         String nomeFt = id + "_" + Instant.now().toEpochMilli() + "." +extensao;
 
-        Path destino = Paths.get(uploadDir + nomeFt);
+        Path destino = Paths.get(uploadDir, nomeFt);
 
         Files.createDirectories(destino.getParent());
 

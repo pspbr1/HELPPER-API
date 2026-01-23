@@ -1,15 +1,11 @@
 package br.com.helpper.helpper_api.ENTITY;
 
-import jakarta.persistence.*;
-
-
-import jakarta.persistence.*;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("CONTRATANTE")
 public class Contratante extends Usuario {
-
-    private String cpf;
 
     private int telefone;
 
@@ -25,13 +21,6 @@ public class Contratante extends Usuario {
         this.endereco = endereco;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public int getTelefone() {
         return telefone;
     }
@@ -39,4 +28,3 @@ public class Contratante extends Usuario {
         this.telefone = telefone;
     }
 }
-
