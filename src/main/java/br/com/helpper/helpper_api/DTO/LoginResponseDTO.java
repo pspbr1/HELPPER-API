@@ -5,19 +5,20 @@ public class LoginResponseDTO {
     private String type = "Bearer";
     private Long id;
     private String email;
+    private String nome;
     private String tipoUsuario;
 
     public LoginResponseDTO() {
     }
 
-    public LoginResponseDTO(String token, Long id, String email, String tipoUsuario) {
+    public LoginResponseDTO(String token, Long id, String email, String nome, String tipoUsuario) {
         this.token = token;
         this.id = id;
         this.email = email;
+        this.nome = nome;
         this.tipoUsuario = tipoUsuario;
     }
 
-    // Getters e Setters
     public String getToken() {
         return token;
     }
@@ -48,6 +49,14 @@ public class LoginResponseDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getTipoUsuario() {

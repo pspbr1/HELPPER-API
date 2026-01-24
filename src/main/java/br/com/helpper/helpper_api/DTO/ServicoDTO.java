@@ -1,45 +1,64 @@
+/*
+ * ServicoDTO.java
+ * DTO para retornar dados de um serviço/solicitação
+ * Inclui informações básicas do contratante sem expor entidade completa
+ * Usado em listagens e detalhes de serviços
+ */
 package br.com.helpper.helpper_api.DTO;
 
-import br.com.helpper.helpper_api.ENTITY.Contratante;
 import br.com.helpper.helpper_api.ENTITY.Servico;
+import br.com.helpper.helpper_api.ENTITY.StatusEnum;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class ServicoDTO {
-    private  long id;
-    private String orcamento;
+
+    private Long id;
+    private BigDecimal orcamento;
     private String tipo;
-    private Date data;
+    private LocalDateTime data;
     private String descricao;
-    private Contratante contratante;
+    private StatusEnum status;
+
+    // Informações do contratante (apenas dados necessários)
+    private Long contratanteId;
+    private String contratanteNome;
     private String enderecoDoContratante;
 
     public ServicoDTO() {
-
     }
 
     public ServicoDTO(Servico servico) {
-        this.id =  servico.getId();
+        this.id = servico.getId();
         this.orcamento = servico.getOrcamento();
         this.tipo = servico.getTipo();
         this.data = servico.getData();
         this.descricao = servico.getDescricao();
-        this.enderecoDoContratante = servico.getEnderecoDoContratante();
+        this.status = servico.getStatus();
+
+        // Preenche dados do contratante se existir
+        if (servico.getContratante() != null) {
+            this.contratanteId = servico.getContratante().getId();
+            this.contratanteNome = servico.getContratante().getNome();
+            this.enderecoDoContratante = servico.getContratante().getEndereco();
+        }
     }
 
-    public long getId() {
+    // Getters e Setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getOrcamento() {
+    public BigDecimal getOrcamento() {
         return orcamento;
     }
 
-    public void setOrcamento(String orcamento) {
+    public void setOrcamento(BigDecimal orcamento) {
         this.orcamento = orcamento;
     }
 
@@ -51,11 +70,11 @@ public class ServicoDTO {
         this.tipo = tipo;
     }
 
-    public Date getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 
@@ -67,12 +86,28 @@ public class ServicoDTO {
         this.descricao = descricao;
     }
 
-    public Contratante getContratante() {
-        return contratante;
+    public StatusEnum getStatus() {
+        return status;
     }
 
-    public void setContratante(Contratante contratante) {
-        this.contratante = contratante;
+    public void setStatus(StatusEnum status) {
+        this.status = status;
+    }
+
+    public Long getContratanteId() {
+        return contratanteId;
+    }
+
+    public void setContratanteId(Long contratanteId) {
+        this.contratanteId = contratanteId;
+    }
+
+    public String getContratanteNome() {
+        return contratanteNome;
+    }
+
+    public void setContratanteNome(String contratanteNome) {
+        this.contratanteNome = contratanteNome;
     }
 
     public String getEnderecoDoContratante() {
@@ -83,4 +118,3 @@ public class ServicoDTO {
         this.enderecoDoContratante = enderecoDoContratante;
     }
 }
-

@@ -1,62 +1,62 @@
 package br.com.helpper.helpper_api.ENTITY;
 
 import jakarta.persistence.*;
-
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "servico")
 public class Servico {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String orcamento;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal orcamento;
 
-    @Column
+    @Column(nullable = false, length = 100)
     private String tipo;
 
-    @Column
-    private Date  data;
+    @Column(nullable = false)
+    private LocalDateTime data;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    @Column
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
 
-    @ManyToOne
-    @JoinColumn(name = "contratante_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contratante_id", nullable = false)
     private Contratante contratante;
 
-  
-
-    public Servico(){
+    public Servico() {
+        this.status = StatusEnum.CRIADO; // Status padrão ao criar
+        this.data = LocalDateTime.now();
     }
-    
-    //AQUI HERDA O ENDEREÇO DO USUARIO
 
+    // Método auxiliar para obter endereço do contratante
     public String getEnderecoDoContratante() {
         return contratante != null ? contratante.getEndereco() : null;
     }
 
-    public long getId() {
+    // Getters e Setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getOrcamento() {
+    public BigDecimal getOrcamento() {
         return orcamento;
     }
 
-    public void setOrcamento(String orcamento) {
-        orcamento = orcamento;
+    public void setOrcamento(BigDecimal orcamento) {
+        this.orcamento = orcamento; // ✅ Corrigido - antes faltava "this."
     }
 
     public String getTipo() {
@@ -67,11 +67,11 @@ public class Servico {
         this.tipo = tipo;
     }
 
-    public Date getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 
@@ -91,4 +91,11 @@ public class Servico {
         this.status = status;
     }
 
+    public Contratante getContratante() {
+        return contratante;
+    }
+
+    public void setContratante(Contratante contratante) {
+        this.contratante = contratante;
+    }
 }

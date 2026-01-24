@@ -13,7 +13,7 @@ public abstract class Usuario {
     private Long id;
 
     @Column
-    private String cpf;
+    protected String cpf;
 
     @Column(nullable = false)
     private String nome;

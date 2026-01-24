@@ -1,76 +1,78 @@
+/*
+ * AuthController.java
+ * Controller responsável pelos endpoints de autenticação
+ * Gerencia login, registro e validação de disponibilidade de email
+ * Endpoints públicos (não requerem autenticação)
+ */
 package br.com.helpper.helpper_api.CONTROLLER;
 
 import br.com.helpper.helpper_api.DTO.LoginRequestDTO;
 import br.com.helpper.helpper_api.DTO.LoginResponseDTO;
-import br.com.helpper.helpper_api.ENTITY.Usuario;
-import br.com.helpper.helpper_api.REPOSITORY.UsuarioRepository;
-import br.com.helpper.helpper_api.SECURITY.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.helpper.helpper_api.DTO.RegisterRequestDTO;
+import br.com.helpper.helpper_api.SERVICES.AuthService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*") // Configurar origens específicas em produção
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthService authService;
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequestDTO loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getSenha()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
-        String jwt = jwtTokenProvider.generateToken(userPrincipal);
-
-        Usuario usuario = usuarioRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-
-        return ResponseEntity.ok(new LoginResponseDTO(
-                jwt,
-                usuario.getId(),
-                usuario.getEmail(),
-                usuario.getClass().getSimpleName()
-        ));
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
-    @PostMapping("/registrar")
-    public ResponseEntity<?> registerUser(@RequestBody Usuario usuario) {
-        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
-            return ResponseEntity.badRequest().body("Email já está em uso!");
-        }
+    /**
+     * Endpoint de login
+     * POST /api/auth/login
+     */
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto) {
+        LoginResponseDTO response = authService.login(dto);
+        return ResponseEntity.ok(response);
+    }
 
-        if (usuarioRepository.existsByCpf(usuario.getCpf())) {
-            return ResponseEntity.badRequest().body("CPF já está cadastrado!");
-        }
+    /**
+     * Endpoint de registro
+     * POST /api/auth/register
+     */
+    @PostMapping("/register")
+    public ResponseEntity<LoginResponseDTO> registrar(@Valid @RequestBody RegisterRequestDTO dto) {
+        LoginResponseDTO response = authService.registrar(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 
-        // Criptografa a senha
-        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+    /**
+     * Verifica se email está disponível
+     * GET /api/auth/check-email?email=teste@email.com
+     */
+    @GetMapping("/check-email")
+    public ResponseEntity<Map<String, Boolean>> verificarEmail(@RequestParam String email) {
+        boolean disponivel = authService.emailDisponivel(email);
 
-        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("disponivel", disponivel);
 
-        return ResponseEntity.ok("Usuário registrado com sucesso! ID: " + usuarioSalvo.getId());
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Endpoint de health check
+     * GET /api/auth/health
+     */
+    @GetMapping("/health")
+    public ResponseEntity<Map<String, String>> health() {
+        Map<String, String> response = new HashMap<>();
+        response.put("status", "OK");
+        response.put("service", "Helpper API");
+
+        return ResponseEntity.ok(response);
     }
 }
