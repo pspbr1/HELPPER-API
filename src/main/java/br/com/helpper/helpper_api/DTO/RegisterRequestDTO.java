@@ -36,17 +36,21 @@ public class RegisterRequestDTO {
     @NotNull(message = "Tipo de usuário é obrigatório")
     private TipoUsuario tipo; // CONTRATANTE ou PRESTADOR
 
+    @NotBlank(message = "Por favor, informe um CPF")
+    private String cpf;
+
     public RegisterRequestDTO() {
     }
 
     public RegisterRequestDTO(String nome, String email, String senha, String confirmarSenha,
-                              Boolean termosAceitos, TipoUsuario tipo) {
+                              Boolean termosAceitos, TipoUsuario tipo, String cpf) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.confirmarSenha = confirmarSenha;
         this.termosAceitos = termosAceitos;
         this.tipo = tipo;
+        this.cpf = cpf;
     }
 
     // Getters e Setters
@@ -104,5 +108,11 @@ public class RegisterRequestDTO {
      */
     public boolean senhasConferem() {
         return senha != null && senha.equals(confirmarSenha);
+    }
+    public String getCpf() {
+        return cpf;
+    }
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }

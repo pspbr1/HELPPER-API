@@ -25,6 +25,7 @@ public class PrestadorDTO {
     private List<String> servicos = new ArrayList<>();
     private String bioProfissional;
     private String fotoPerfilUrl;
+    private String Senha;
 
     public PrestadorDTO() {
     }
@@ -43,6 +44,7 @@ public class PrestadorDTO {
                 : new ArrayList<>();
         this.bioProfissional = prestador.getBioProfissional();
         this.fotoPerfilUrl = prestador.getFotoPerfilUrl();
+        this.Senha = prestador.getSenha();
     }
 
     // Getters e Setters
@@ -132,5 +134,12 @@ public class PrestadorDTO {
 
     public void setFotoPerfilUrl(String fotoPerfilUrl) {
         this.fotoPerfilUrl = fotoPerfilUrl;
+    }
+
+    public String getSenha() {
+        return Senha;
+    }
+    public void setSenha(String Senha) {
+        this.Senha = Senha;
     }
 }

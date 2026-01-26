@@ -3,6 +3,7 @@ package br.com.helpper.helpper_api.SERVICES;
 import br.com.helpper.helpper_api.DTO.PrestadorDTO;
 import br.com.helpper.helpper_api.ENTITY.Prestador;
 import br.com.helpper.helpper_api.REPOSITORY.PrestadorRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,14 +12,21 @@ import java.util.List;
 public class PrestadorService {
 
     private final PrestadorRepository prestadorRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public PrestadorService(PrestadorRepository prestadorRepository) {
+    public PrestadorService(PrestadorRepository prestadorRepository, PasswordEncoder passwordEncoder) {
         this.prestadorRepository = prestadorRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     //criar novo prestador
-    public PrestadorDTO criar(Prestador prestador) {
-        Prestador salvo = prestadorRepository.save(prestador);
+    public PrestadorDTO criar(PrestadorDTO prestador) {
+        Prestador prestadorAux = new Prestador();
+        prestadorAux.setNome(prestador.getNome());
+        prestadorAux.setCpf(prestador.getCpf());
+        prestadorAux.setEmail(prestador.getEmail());
+        prestadorAux.setSenha(passwordEncoder.encode(prestador.getSenha()));
+        Prestador salvo = prestadorRepository.save(prestadorAux);
         return new PrestadorDTO(salvo);
     }
 

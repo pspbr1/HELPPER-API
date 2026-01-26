@@ -29,7 +29,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${app.upload.dir:/uploads/usuarios}")
+    @Value("${app.upload.dir:uploads/usuarios}")
     private String uploadDir;
 
     @Value("${app.base.url:http://localhost:8080}")
@@ -146,7 +146,7 @@ public class UsuarioService {
         Files.copy(arquivoFoto.getInputStream(), destino, StandardCopyOption.REPLACE_EXISTING);
 
         // Atualiza URL no banco
-        String urlFoto = baseUrl + "/arquivos/usuarios/" + nomeArquivo;
+        String urlFoto = baseUrl + "/api/arquivos/usuarios/" + nomeArquivo;
         usuario.setFotoPerfilUrl(urlFoto);
         Usuario salvo = usuarioRepository.save(usuario);
 

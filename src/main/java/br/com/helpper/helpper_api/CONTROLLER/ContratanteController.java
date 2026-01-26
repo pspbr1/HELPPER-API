@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/contratantes")
+@RequestMapping("/contratante")
 public class ContratanteController {
 
     @Autowired
@@ -24,10 +24,11 @@ public class ContratanteController {
 
     // Metodo POST /api/contratantes
     @PostMapping
-    public ResponseEntity<ContratanteDTO> criar(@RequestBody Contratante contratante) {
-        ContratanteDTO dto = contratanteService.criar(contratante);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+    public ResponseEntity<ContratanteDTO> criar(@RequestBody ContratanteDTO dto) {
+        ContratanteDTO salvo = contratanteService.criar(dto); // retorna DTO
+        return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
+
 
     // Metodo GET /api/contratantes - Listar todos
     @GetMapping

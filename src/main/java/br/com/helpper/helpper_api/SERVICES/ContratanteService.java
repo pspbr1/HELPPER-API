@@ -7,6 +7,7 @@ package br.com.helpper.helpper_api.SERVICES;
 import br.com.helpper.helpper_api.DTO.ContratanteDTO;
 import br.com.helpper.helpper_api.ENTITY.Contratante;
 import br.com.helpper.helpper_api.REPOSITORY.ContratanteRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,16 +16,27 @@ import java.util.List;
 public class ContratanteService {
 
     private final ContratanteRepository contratanteRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public ContratanteService(ContratanteRepository contratanteRepository) {
+    public ContratanteService(ContratanteRepository contratanteRepository, PasswordEncoder passwordEncoder) {
         this.contratanteRepository = contratanteRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     //criar um novo contratante
-    public ContratanteDTO criar(Contratante contratante) {
-        Contratante salvo = contratanteRepository.save(contratante);
+    public ContratanteDTO criar(ContratanteDTO dto) {
+        Contratante contr = new Contratante();
+        contr.setEmail(dto.getEmail());
+        contr.setNome(dto.getNome());
+        contr.setCpf(dto.getCpf());
+        contr.setTelefone(dto.getTelefone());
+        contr.setEndereco(dto.getEndereco());
+        contr.setSenha(passwordEncoder.encode(dto.getSenha())); // senha na abstrata
+
+        Contratante salvo = contratanteRepository.save(contr);
         return new ContratanteDTO(salvo);
     }
+
 
 
     //buscar todos os contratantes

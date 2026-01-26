@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/prestador")
+@RequestMapping("/prestador")
 public class PrestadorController {
 
     @Autowired
@@ -19,9 +19,9 @@ public class PrestadorController {
 
     // Metodo POST /api/Prestadores - Criar prestador
     @PostMapping
-    public ResponseEntity<PrestadorDTO> criar(@RequestBody Prestador prestador) {
-        PrestadorDTO dto = prestadorService.criar(prestador);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
+    public ResponseEntity<PrestadorDTO> criar(@RequestBody PrestadorDTO dto) {
+        PrestadorDTO salvo = prestadorService.criar(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
     // Metodo GET /api/Prestadors - Listar todos prestadores

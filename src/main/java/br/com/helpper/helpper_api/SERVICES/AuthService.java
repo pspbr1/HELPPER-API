@@ -6,6 +6,7 @@
  */
 package br.com.helpper.helpper_api.SERVICES;
 
+import br.com.helpper.helpper_api.CONFIG.CriptoService;
 import br.com.helpper.helpper_api.DTO.LoginRequestDTO;
 import br.com.helpper.helpper_api.DTO.LoginResponseDTO;
 import br.com.helpper.helpper_api.DTO.RegisterRequestDTO;
@@ -34,17 +35,19 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final CriptoService criptoService;
 
     public AuthService(
             UsuarioRepository usuarioRepository,
             PasswordEncoder passwordEncoder,
             JwtTokenProvider jwtTokenProvider,
-            AuthenticationManager authenticationManager
-    ) {
+            AuthenticationManager authenticationManager,
+            CriptoService criptoService) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
         this.authenticationManager = authenticationManager;
+        this.criptoService = criptoService;
     }
 
     /**
@@ -81,7 +84,8 @@ public class AuthService {
         // Preenche dados comuns
         usuario.setNome(dto.getNome());
         usuario.setEmail(dto.getEmail());
-        usuario.setSenha(passwordEncoder.encode(dto.getSenha())); // Criptografa senha
+        usuario.setSenha(passwordEncoder.encode(dto.getSenha()));
+        usuario.setCpf(criptoService.encrypt(dto.getCpf()));
 
         // Salva no banco
         try {

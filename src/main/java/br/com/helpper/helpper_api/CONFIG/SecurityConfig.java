@@ -9,6 +9,7 @@ package br.com.helpper.helpper_api.CONFIG;
 import br.com.helpper.helpper_api.SECURITY.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -52,11 +53,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Endpoints públicos (sem autenticação)
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/auth/**").authenticated()
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/api/arquivos/**").permitAll()
                         .requestMatchers("/api/swagger-ui/**").permitAll()
                         .requestMatchers("/api/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/h2-console/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/prestador").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/prestador").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/contratante").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/contratante").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                        .requestMatchers("/api/arquivos/usuarios/**").permitAll()
+                        .requestMatchers("/arquivos/usuarios/**").permitAll()
+
 
                         // Endpoints específicos por role
                         .requestMatchers("/api/prestadores/**").hasAnyRole("PRESTADOR", "CONTRATANTE")

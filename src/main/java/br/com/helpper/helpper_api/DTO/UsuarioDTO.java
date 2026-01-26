@@ -9,7 +9,7 @@ public class UsuarioDTO {
     private String email;
     private String fotoPerfilUrl;
     private String tipoUsuario;
-
+    private String senha;
     public UsuarioDTO() {
     }
 
@@ -18,6 +18,7 @@ public class UsuarioDTO {
         this.cpf = usuario.getCpf();
         this.nome = usuario.getNome();
         this.email = usuario.getEmail();
+        this.senha = usuario.getSenha();
         this.fotoPerfilUrl = usuario.getFotoPerfilUrl();
         this.tipoUsuario = usuario.getRoleName();
     }
@@ -37,6 +38,14 @@ public class UsuarioDTO {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getNome() {

@@ -17,11 +17,12 @@ public class ContratanteDTO {
     private String telefone;
     private String endereco;
     private String fotoPerfilUrl;
+    private String Senha;
 
     public ContratanteDTO() {
     }
 
-    public ContratanteDTO(Contratante contratante) {
+    public ContratanteDTO (Contratante contratante) {
         this.id = contratante.getId();
         this.nome = contratante.getNome();
         this.email = contratante.getEmail();
@@ -29,6 +30,7 @@ public class ContratanteDTO {
         this.telefone = String.valueOf(contratante.getTelefone());
         this.endereco = contratante.getEndereco();
         this.fotoPerfilUrl = contratante.getFotoPerfilUrl();
+        this.Senha = contratante.getSenha();
     }
 
     // Getters e Setters
@@ -87,4 +89,12 @@ public class ContratanteDTO {
     public void setFotoPerfilUrl(String fotoPerfilUrl) {
         this.fotoPerfilUrl = fotoPerfilUrl;
     }
+
+    public String getSenha() {
+        return Senha;
+    }
+    public void setSenha(String senha) {
+        Senha = senha;
+    }
+
 }
